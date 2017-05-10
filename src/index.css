@@ -1,0 +1,105 @@
+*, *::after {
+    box-sizing: border-box;
+    user-select: none;
+    cursor: default;
+}
+
+body {
+    background-color: #222;
+    font-size: 20px;
+}
+
+body, input {
+    font-family: 'PT Mono', monospace;
+    color: #f0f0f0;
+}
+
+input {
+    font-size: 1em;
+    outline: 0;
+}
+
+.row {
+    display: flex;
+}
+
+.center-center {
+    justify-content: center;
+    align-items: center;
+}
+
+.bg-secondary {
+    background-color: #2bd !important;
+}
+
+.button {
+    background-color: #f0f0f0;
+    color: #222;
+    padding: 2px 6px;
+    font-size: .8em;
+    border: 1px solid #111;
+}
+
+.button:first-of-type {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.button:last-of-type {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.input-number {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1px;
+    background: none;
+}
+
+.input-number:focus {
+    border-bottom-width: 2px;
+    margin-bottom: 0;
+}
+
+.app {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.player {
+    margin-bottom: 20px;
+}
+
+.player-controls {
+
+}
+
+.player-bpm {
+    font-size: 2em;
+    width: 100px;
+}
+
+.beatroll-container {
+    margin-bottom: 20px;
+}
+
+.beatroll {
+    display: flex;
+}
+
+.beatroll-checkbox {
+    flex: 1;
+    height: 30px;
+    background-color: #666;
+    margin: 3px;
+    border-radius: 2px;
+}
+
+.beatroll-checkbox-separator:not(:first-child) {
+    margin-left: 10px;
+}
+
+.beatroll-checkbox-checked {
+    background-color: #b47;
+}
