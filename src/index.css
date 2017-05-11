@@ -68,11 +68,11 @@ input {
 }
 
 .player {
-    margin-bottom: 20px;
+    margin-bottom: 1em;
 }
 
 .player-controls {
-
+    margin-bottom: 1em;
 }
 
 .player-bpm {
@@ -81,7 +81,10 @@ input {
 }
 
 .beatroll-container {
+    background-color: #333;
+    padding: 1em;
     margin-bottom: 20px;
+    border-radius: 8px;
 }
 
 .beatroll {

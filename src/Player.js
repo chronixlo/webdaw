@@ -5,90 +5,98 @@ import play from './icons/play.svg';
 import pause from './icons/pause.svg';
 
 class Player extends Component {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        this.timeout = null;
+    this.timeout = null;
 
-        this.state = {
-            bar: 0,
-            tempo: 130,
-            playing: false
-        };
+    this.state = {
+      bar: 0,
+      tempo: 130,
+      playing: false
+    };
 
-        this.togglePlay = this.togglePlay.bind(this);
-    }
+    this.onTimelineClick = this.onTimelineClick.bind(this);
+    this.togglePlay = this.togglePlay.bind(this);
+  }
 
-    componentDidMount() {
-        this.togglePlay();
-    }
+  componentDidMount() {
+    this.togglePlay();
+  }
 
-    tick() {
-        this.timeout = setTimeout(this.tick.bind(this), 1000 * (60 / this.state.tempo / 4));
+  tick() {
+    this.timeout = setTimeout(this.tick.bind(this), 1000 * (60 / this.state.tempo / 4));
 
-        Audio.channels.forEach(channel => {
-            channel.osc.frequency.value = channel.pattern[this.state.bar];
-        });
+    Audio.channels.forEach(channel => {
+      channel.osc.frequency.value = channel.pattern[this.state.bar];
+    });
 
-        Audio.beats.forEach((beat, i) => {
-            Audio.beatPatterns[i][this.state.bar] &&
-                beat.play();
-        });
+    Audio.beats.forEach((beat, i) => {
+      Audio.getBeatPattern(i)[this.state.bar] &&
+        beat.play();
+    });
 
-        this.setState({
-            bar: this.state.bar === 15 ? 0 : ++this.state.bar
-        });
-    }
+    this.setState({
+      bar: this.state.bar === 15 ? 0 : ++this.state.bar
+    });
+  }
 
-    render() {
-      return (
-        <div className="player">
-          <div className="player-controls row center-center">
-            <div>
-              {
-                  <img className="button"
-                    src={this.state.playing ? pause : play}
-                    onClick={this.togglePlay} 
-                  />
-              }
-
-              <input
-                  type="number"
-                  className="input-number player-bpm"
-                  value={this.state.tempo}
-                  onChange={e => {
-                      this.setState({
-                          tempo: e.target.value
-                      })
-                  }}
+  render() {
+    return (
+      <div className="player">
+        <div className="player-controls row center-center">
+          <div>
+            {
+              <img className="button"
+                src={this.state.playing ? pause : play}
+                onClick={this.togglePlay} 
               />
-            </div>
+            }
+
+            <input
+              type="number"
+              className="input-number player-bpm"
+              value={this.state.tempo}
+              onChange={e => {
+                this.setState({
+                  tempo: e.target.value
+                })
+              }}
+            />
           </div>
-
-          <BeatRoll
-            pattern={new Array(16).fill(false).map((b, i) => i === this.state.bar)}
-            readOnly={true}
-            activeClass="bg-secondary"
-          ></BeatRoll>
         </div>
-      );
+
+        <BeatRoll
+          pattern={new Array(16).fill(false).map((b, i) => i === this.state.bar)}
+          onUpdate={this.onTimelineClick}
+          singleSelect={true}
+          activeClass="bg-secondary"
+        ></BeatRoll>
+      </div>
+    );
+  }
+
+  togglePlay() {
+    let playing = !this.state.playing;
+
+    if (playing) {
+      this.tick();
+      Audio.play();
+    } else {
+      clearTimeout(this.timeout);
+      Audio.stop();
     }
 
-    togglePlay() {
-      let playing = !this.state.playing;
+    this.setState({
+      playing        
+    });
+  }
 
-      if (playing) {
-        this.tick();
-        Audio.play();
-      } else {
-        clearTimeout(this.timeout);
-        Audio.stop();
-      }
-
-      this.setState({
-        playing        
-      });
-    }
+  onTimelineClick(i) {
+    this.setState({
+      bar: i
+    });
+  }
 }
 
 export default Player;

@@ -5,13 +5,9 @@ class BeatRoll extends Component {
   constructor(props) {
     super(props);
 
-    let pattern = this.props.pattern || new Array(16).fill(false);
-
     this.state = {
-      pattern
+      pattern: this.props.pattern
     };
-
-    this.props.onUpdate && this.props.onUpdate(pattern);
 
     this.toggleChecked = this.toggleChecked.bind(this);
   }
@@ -29,7 +25,7 @@ class BeatRoll extends Component {
       <div className="beatroll-container">
         <div className="row">
           {
-            this.props.readOnly ||
+            this.props.showFills &&
             [1, 2, 4, 8].map(i =>
               <div
                 className="button"
@@ -46,7 +42,7 @@ class BeatRoll extends Component {
           {
             this.state.pattern.map((b, i) => 
                 <div
-                  onClick={e => this.toggleChecked(i)}
+                  onClick={() => this.onBeatRollClick(i)}
                   key={i}
                   className={cn([
                     'beatroll-checkbox',
@@ -61,11 +57,15 @@ class BeatRoll extends Component {
     );
   }
 
-  toggleChecked(i) {
-    if (this.props.readOnly) {
-      return;
+  onBeatRollClick(i) {
+    if (this.props.singleSelect) {
+      this.props.onUpdate(i);
+    } else {
+      this.toggleChecked(i);
     }
+  }
 
+  toggleChecked(i) {
     let pattern = this.state.pattern.slice();
 
     pattern[i] = !pattern[i];

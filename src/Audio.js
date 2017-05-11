@@ -24,8 +24,8 @@ class Audio {
         
     }
 
-    getSamples() {
-        return this.beats;
+    getBeatPattern(i) {
+        return this.beatPatterns[i] || new Array(16).fill(false);
     }
 
     setBeatPattern(i, pattern) {

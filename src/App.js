@@ -34,19 +34,17 @@ class App extends Component {
         <Player></Player>
 
         {
-          Audio.getSamples().map((sample, i) =>
+          Audio.beats.map((sample, i) =>
             <BeatRoll
-              onUpdate={beat => this.updateBeat(i, beat)}
+              pattern={Audio.getBeatPattern(i)}
+              onUpdate={(beat) => Audio.setBeatPattern(i, beat)}
+              showFills={true}
               key={i}
             ></BeatRoll>
           )
         }
       </div>
     );
-  }
-
-  updateBeat(i, beat) {
-    Audio.setBeatPattern(i, beat);
   }
 }
 
