@@ -6,6 +6,9 @@
 # testing
 /coverage
 
+# production
+*.map
+
 # misc
 .DS_Store
 .env

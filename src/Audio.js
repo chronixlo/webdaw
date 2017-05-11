@@ -6,7 +6,7 @@ class Audio {
 
         this.samples = {};
 
-        this.ctx = new AudioContext();
+        this.ctx = new (window.AudioContext || window.webkitAudioContext)();
 
         this.master = this.ctx.createGain();
         this.master.gain.value = .05;
